@@ -116,6 +116,51 @@ def Analisis_Pembayaran(df_payment):
 
 def Analisis_Barang(df_item) :
     st.header("10122253 - Hana Mar'atul Afifah Rambe")
+
+    # Mengambil data penjualan dari dataframe df_item
+    count_product_sales = df_item.groupby('product_id').size().reset_index(name='Jumlah Penjualan')
+    Product_Terlaris = count_product_sales.nlargest(7, 'Jumlah Penjualan')  # Mengambil 7 produk terlaris
+
+    # Menampilkan tabel
+    st.header('Grafik 7 Produk Terlaris Berdasarkan Jumlah Penjualannya')
+    st.dataframe(Product_Terlaris)
+
+    # Menampilkan Bar Chart menggunakan Matplotlib
+    plt.figure(figsize=(10, 6))
+    plt.bar(Product_Terlaris['product_id'], Product_Terlaris['Jumlah Penjualan'], color='blue')
+    plt.xticks(rotation=90)
+    plt.xlabel('Product ID')
+    plt.ylabel('Jumlah Penjualan')
+    plt.title('Grafik 7 Produk Terlaris Berdasarkan Jumlah Penjualannya')
+    st.pyplot(plt)
+
+    #Expander Grafik
+    with st.expander("Penjelasan diagram Produk terlaris berdasarkan jumlah penjualannya") :
+        st.write('Grafik di atas menampilkan 7 produk terlaris berdasarkan jumlah penjualannya. Setiap batang mewakili satu produk, sedangkan tinggi batang menunjukkan jumlah penjualan produk tersebut. Semakin tinggi batang, semakin tinggi jumlah penjualan produk.')
+
+    # Menghitung jumlah penjualan dari dataframe df_item
+    count_product_sales = df_item.groupby('product_id').size().reset_index(name='Jumlah Penjualan')
+
+    # Mengambil 7 produk terbawah berdasarkan jumlah penjualan
+    Product_Terendah = count_product_sales.nsmallest(7, 'Jumlah Penjualan')
+
+    # Menampilkan tabel
+    st.header('7 Produk Terbawah Berdasarkan Jumlah Penjualannya')
+    st.dataframe(Product_Terendah)
+
+    # Menampilkan Diagram Grafik (Line Chart)
+    plt.figure(figsize=(10, 6))
+    plt.plot(Product_Terendah['product_id'], Product_Terendah['Jumlah Penjualan'], marker='o', linestyle='-')
+    plt.xlabel('Product ID')
+    plt.ylabel('Jumlah Penjualan')
+    plt.title('Grafik Jumlah Penjualan 7 Produk Terbawah')
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
+
+    #Expander Grafik
+    with st.expander("Penjelasan grafik penjualan terbawah") :
+        st.write('menampilkan jumlah penjualan dari 7 produk terbawah dalam bentuk garis yang menghubungkan titik data setiap produk. Setiap titik mewakili satu produk dan jumlah penjualan yang terkait dengannya.produk penjualan terendah tersebut ada pada angka 1.')
+
     
 def Analisis_Review(df_review) :
     st.header("10122235 - Ryuna Aurelia Putri")
@@ -157,81 +202,38 @@ def Analisis_Penjual(df_seller):
     #tabel
     count_seller_city = df_seller['seller_city'].value_counts().reset_index()
     count_seller_city.columns = ['Kota', 'Jumlah Penjual']
-    Penjual_Terbanyak = count_seller_city.head(5)
+    Penjual_Terbanyak = count_seller_city.head(10)
 
-    st.header('Grafik 5 Asal Kota dengan Jumlah Penjual Terbanyak')
+    #Menampilkan tabel
+    st.header('Grafik 10 Kota dengan Jumlah Penjual Terbanyak')
     st.dataframe(Penjual_Terbanyak)
+
+    #Diagram Garis
+    plt.figure(figsize=(17, 12))
+    plt.plot(Penjual_Terbanyak['Kota'], Penjual_Terbanyak['Jumlah Penjual'], marker='o', linestyle='-', color='blue')
+    plt.title('Diagram Garis 10 Kota dengan Jumlah Penjual Terbanyak')
+    plt.xlabel('Kota')
+    plt.ylabel('Jumlah Penjual')
+    plt.grid(True)
+    st.pyplot(plt)
+
+    #Expander Grafik
+    with st.expander("Penjelasan diagram kota dengan jumlah penjual terbanyak") :
+        st.write('Diagram diatas menunjukan 10 kota dengan jumlah penjual terbanyak. Kota-kota dengan jumlah penjual yang banyak menunjukkan adanya potensi pasar yang besar dalam industri e-commerce. Dengan mengidentifikasi kota-kota yang banyak penjualnya, dapat dijadikan panduan untuk perluasan jangkauan bisnis.')
+
 
     #Bar Chart
     plt.figure(figsize=(16, 12))
     plt.bar(Penjual_Terbanyak['Kota'], Penjual_Terbanyak['Jumlah Penjual'], color='pink')
+    plt.title('Diagram Batang 5 Kota dengan Jumlah Penjual Terbanyak')
     plt.xlabel('Asal Kota')
     plt.ylabel('Jumlah Penjual')
-
-    # enampilkan plot menggunakan Streamlit
     st.pyplot(plt)
 
-#Expander Grafik
+    #Expander Grafik
     with st.expander("Penjelasan diagram kota dengan jumlah penjual terbanyak") :
-        st.write('Diagram diatas menunjukan 5 kota dengan jumlah penjual terbanyak. Kota-kota dengan jumlah penjual yang banyak menunjukkan adanya potensi pasar yang besar dalam industri e-commerce. Dengan mengidentifikasi kota-kota yang banyak penjualnya, dapat dijadikan panduan untuk perluasan jangkauan bisnis.')
+        st.write('Diagram diatas menunjukan 10 kota dengan jumlah penjual terbanyak. Kota Sao Paolo menempati posisi pertama yang memiliki jumlah penjual terbanyak, dan Kota Maringa berada di posisi ke 10. Diagram ini menunjukkan distribusi jumlah penjual di berbagai kota dan memungkinkan kita untuk melihat perbedaan dalam jumlah penjual di antara kota-kota teratas. ')
 
-
-    #kota dengan total penjual terendah
-    count_seller_city = df_seller['seller_city'].value_counts().reset_index()
-    count_seller_city.columns = ['Kota', 'Jumlah Penjual']
-    Penjual_Tersedikit = count_seller_city.tail(8)
-
-    st.header('Grafik 8 Asal Kota dengan Jumlah Penjual Terbawah')
-    st.dataframe(Penjual_Tersedikit)
-
-    #diagram lingkaran
-    plt.figure(figsize=(8, 8))
-    plt.pie(Penjual_Tersedikit['Jumlah Penjual'], labels=Penjual_Tersedikit['Kota'], autopct='%1.1f%%', startangle=140)
-    plt.title('Persentase Jumlah Penjual Terbawahberdasarkan Kota')
-    plt.axis('equal')  # Agar lingkaran menjadi lingkaran sempurna
-    st.pyplot(plt)
-
-    
-def Analisis_Penjual(df_seller) :
-    st.header("10122258 - Indri Tri Puspita")
-
-    #tabel
-    count_seller_city = df_seller['seller_city'].value_counts().reset_index()
-    count_seller_city.columns = ['Kota', 'Jumlah Penjual']
-    Penjual_Terbanyak = count_seller_city.head(5)
-
-    st.header('Grafik 5 Asal Kota dengan Jumlah Penjual Terbanyak')
-    st.dataframe(Penjual_Terbanyak)
-
-    #Bar Chart
-    plt.figure(figsize=(16, 12))
-    plt.bar(Penjual_Terbanyak['Kota'], Penjual_Terbanyak['Jumlah Penjual'], color='pink')
-    plt.xlabel('Asal Kota')
-    plt.ylabel('Jumlah Penjual')
-
-    # enampilkan plot menggunakan Streamlit
-    st.pyplot(plt)
-
-#Expander Grafik
-    with st.expander("Penjelasan diagram kota dengan jumlah penjual terbanyak") :
-        st.write('Diagram diatas menunjukan 5 kota dengan jumlah penjual terbanyak. Kota-kota dengan jumlah penjual yang banyak menunjukkan adanya potensi pasar yang besar dalam industri e-commerce. Dengan mengidentifikasi kota-kota yang banyak penjualnya, dapat dijadikan panduan untuk perluasan jangkauan bisnis.')
-
-
-    #kota dengan total penjual terendah
-    count_seller_city = df_seller['seller_city'].value_counts().reset_index()
-    count_seller_city.columns = ['Kota', 'Jumlah Penjual']
-    Penjual_Tersedikit = count_seller_city.tail(8)
-
-    st.header('Grafik 8 Asal Kota dengan Jumlah Penjual Terbawah')
-    st.dataframe(Penjual_Tersedikit)
-
-    #diagram lingkaran
-    plt.figure(figsize=(8, 8))
-    plt.pie(Penjual_Tersedikit['Jumlah Penjual'], labels=Penjual_Tersedikit['Kota'], autopct='%1.1f%%', startangle=140)
-    plt.title('Persentase Jumlah Penjual Terbawahberdasarkan Kota')
-    plt.axis('equal')  # Agar lingkaran menjadi lingkaran sempurna
-    st.pyplot(plt)
-    
 
 df_customer = load_data("https://raw.githubusercontent.com/nianaa24/IF-MATH/main/customers_dataset.csv")
 df_payment = load_data("https://raw.githubusercontent.com/nianaa24/IF-MATH/main/order_payments_dataset.csv")
