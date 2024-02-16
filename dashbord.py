@@ -1,4 +1,4 @@
-import streamlit as st
+rimport streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -70,8 +70,8 @@ def Analisis_Pembayaran(df_payment):
     # Mengelompokkan data pembayaran berdasarkan urutan pembayaran dan menghitung jumlah pembayaran untuk setiap urutan
     payment_by_sequence = df_payment.groupby('payment_sequential')['payment_value'].sum().reset_index()
 
+    st.header("10122481-ARISKA DIYANGKU SUWANDI HILALA")
     st.header("Grafik Urutan Pembayaran")
-    st.text("10122481-ARISKA DIYANGKU SUWANDI HILALA")
     st.dataframe(payment_by_sequence)
 
     # Menampilkan tabel data pembayaran
