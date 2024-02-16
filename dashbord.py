@@ -161,7 +161,6 @@ def Analisis_Barang(df_item) :
     with st.expander("Penjelasan grafik penjualan terbawah") :
         st.write('menampilkan jumlah penjualan dari 7 produk terbawah dalam bentuk garis yang menghubungkan titik data setiap produk. Setiap titik mewakili satu produk dan jumlah penjualan yang terkait dengannya.produk penjualan terendah tersebut ada pada angka 1.')
 
-    
 def Analisis_Review(df_review) :
     st.header("10122235 - Ryuna Aurelia Putri")
 
